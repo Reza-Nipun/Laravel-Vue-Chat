@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\cr;
+use App\User;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -35,7 +36,28 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required',
+            'user_code' => 'required',
+            'gender' => 'required',
+            'age' => 'required',
+            'country' => 'required',
+            'state' => 'required',
+            'country_flag' => 'required',
+        ]);
+
+        $user = new User;
+        $user->name = $request->name;
+        $user->user_code = $request->user_code;
+        $user->gender = $request->gender;
+        $user->age = $request->age;
+        $user->country = $request->country;
+        $user->state = $request->state;
+        $user->country_flag = $request->country_flag;
+        $user->status = 1;
+        $user->save();
+
+        return response()->json($request, 200);
     }
 
     /**
