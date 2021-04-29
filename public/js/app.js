@@ -1935,11 +1935,47 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      name: ''
+    };
+  },
   computed: {
     currentRouteName: function currentRouteName() {
       return this.$route.name;
     }
+  },
+  created: function created() {
+    this.loadUserInfo();
+  },
+  methods: {
+    loadUserInfo: function loadUserInfo() {
+      var _this = this;
+
+      axios.get("/api/user/").then(function (response) {
+        console.log(response.data);
+        _this.name = response.data.name;
+      });
+    },
+    logoutFunction: function logoutFunction() {
+      var _this2 = this;
+
+      axios.get('/api/logout').then(function (response) {
+        _this2.$router.push("/login");
+
+        if (response.data == 'success') {
+          _this2.$router.push({
+            name: 'login'
+          });
+        }
+      });
+    }
+  },
+  mounted: function mounted() {
+    console.log('Component mounted.');
   }
 });
 
@@ -1965,6 +2001,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      user_id: ''
+    };
+  },
+  created: function created() {
+    this.user_id = this.$route.params.data;
+  },
+  methods: {},
   mounted: function mounted() {
     console.log('Component mounted.');
   }
@@ -2111,6 +2156,14 @@ __webpack_require__.r(__webpack_exports__);
         _this.loginForm.gender = '';
         _this.loginForm.flag_url = '';
         _this.loginForm.country_flag = '';
+        console.log(data);
+
+        _this.$router.push({
+          name: 'home',
+          params: {
+            data: data
+          }
+        });
       });
     },
     getUserLocationInfo: function getUserLocationInfo() {
@@ -39507,32 +39560,47 @@ var render = function() {
                           1
                         ),
                         _vm._v(" "),
-                        _c(
-                          "li",
-                          { staticClass: "nav-item" },
-                          [
-                            _c(
-                              "router-link",
-                              {
-                                staticClass: "nav-link",
-                                attrs: { to: { name: "category-list" } }
-                              },
-                              [_vm._v("Product Category")]
-                            )
-                          ],
-                          1
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "li",
-                          { staticClass: "nav-item" },
-                          [
-                            _c("router-link", { staticClass: "nav-link" }, [
-                              _vm._v("Logout")
-                            ])
-                          ],
-                          1
-                        )
+                        _c("li", { staticClass: "nav-item dropdown" }, [
+                          _c(
+                            "a",
+                            {
+                              staticClass: "nav-link dropdown-toggle",
+                              attrs: {
+                                href: "#",
+                                id: "navbarDropdown",
+                                role: "button",
+                                "data-toggle": "dropdown",
+                                "aria-haspopup": "true",
+                                "aria-expanded": "false"
+                              }
+                            },
+                            [
+                              _vm._v(
+                                "\n                        " +
+                                  _vm._s(_vm.name) +
+                                  "\n                    "
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            {
+                              staticClass: "dropdown-menu",
+                              attrs: { "aria-labelledby": "navbarDropdown" }
+                            },
+                            [
+                              _c(
+                                "span",
+                                {
+                                  staticClass: "dropdown-item",
+                                  on: { click: _vm.logoutFunction }
+                                },
+                                [_vm._v("Logout")]
+                              )
+                            ]
+                          )
+                        ])
                       ]
                     )
                   : _vm._e()

@@ -125,6 +125,10 @@ export default {
                 this.loginForm.gender = '';
                 this.loginForm.flag_url = '';
                 this.loginForm.country_flag = '';
+
+                console.log(data);
+
+                this.$router.push({name: 'home', params: { data: data }})
             })
         },
 

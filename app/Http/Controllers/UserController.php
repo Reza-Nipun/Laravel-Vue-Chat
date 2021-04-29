@@ -13,9 +13,13 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $id = session('id');
+
+        $user_info = User::find($id);
+
+        return response()->json($user_info, 200);
     }
 
     /**
@@ -57,7 +61,10 @@ class UserController extends Controller
         $user->status = 1;
         $user->save();
 
-        return response()->json($request, 200);
+        session(['id'=>$user->id]);
+
+
+        return response()->json($user->id, 200);
     }
 
     /**
@@ -66,9 +73,9 @@ class UserController extends Controller
      * @param  \App\cr  $cr
      * @return \Illuminate\Http\Response
      */
-    public function show(cr $cr)
+    public function show(User $user)
     {
-        //
+        
     }
 
     /**
@@ -77,9 +84,9 @@ class UserController extends Controller
      * @param  \App\cr  $cr
      * @return \Illuminate\Http\Response
      */
-    public function edit(cr $cr)
+    public function edit(User $user)
     {
-        //
+        
     }
 
     /**
@@ -89,7 +96,7 @@ class UserController extends Controller
      * @param  \App\cr  $cr
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, cr $cr)
+    public function update(Request $request, User $user)
     {
         //
     }
@@ -100,8 +107,14 @@ class UserController extends Controller
      * @param  \App\cr  $cr
      * @return \Illuminate\Http\Response
      */
-    public function destroy(cr $cr)
+    public function destroy(User $user)
     {
         //
+    }
+    
+    public function logout(){
+        session()->flush();
+
+        return response()->json('success', 200);
     }
 }
