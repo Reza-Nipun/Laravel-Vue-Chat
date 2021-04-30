@@ -114,7 +114,18 @@ export default {
             })
         }
     },
+    created() {
+        this.checkAlreadyRegisteredOrNot()
+    },
     methods: {
+        checkAlreadyRegisteredOrNot(){
+            axios.get(`/api/user/`).then(response => {
+                console.log(response.data.name);
+                if(response.data.name != undefined){
+                    this.$router.push({path: '/home'})
+                }
+            })
+        },
         userLogin(){
             this.loginForm.post('/api/user').then(({ data }) => { 
                 this.loginForm.name = '';
@@ -125,10 +136,9 @@ export default {
                 this.loginForm.gender = '';
                 this.loginForm.flag_url = '';
                 this.loginForm.country_flag = '';
-
-                console.log(data);
-
-                this.$router.push({name: 'home', params: { data: data }})
+                                                
+                this.$router.push({path: '/home'})
+                                
             })
         },
 
@@ -180,7 +190,6 @@ export default {
         //     $("#details").html(JSON.stringify(response, null, 4));
         // }, "jsonp");
 
-        
         this.getUserLocationInfo();
 
     }

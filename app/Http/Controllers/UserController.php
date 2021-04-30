@@ -47,7 +47,7 @@ class UserController extends Controller
             'age' => 'required',
             'country' => 'required',
             'state' => 'required',
-            'country_flag' => 'required',
+            // 'country_flag' => 'required',
         ]);
 
         $user = new User;
@@ -64,7 +64,7 @@ class UserController extends Controller
         session(['id'=>$user->id]);
 
 
-        return response()->json($user->id, 200);
+        return response()->json('success', 200);
     }
 
     /**
@@ -113,6 +113,10 @@ class UserController extends Controller
     }
     
     public function logout(){
+        $id = session('id');
+
+        User::find($id)->delete();
+
         session()->flush();
 
         return response()->json('success', 200);

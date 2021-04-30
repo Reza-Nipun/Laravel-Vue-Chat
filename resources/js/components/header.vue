@@ -14,7 +14,7 @@
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            {{ name }}
+                            Profile
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <span class="dropdown-item" v-on:click="logoutFunction">Logout</span>
@@ -28,10 +28,11 @@
 </template>
 
 <script>
+
 export default {
         data(){
             return {
-                name: ''
+                // user_name: '',
             }
         },
         computed: {
@@ -40,21 +41,20 @@ export default {
             }
         },
         created() {
-            this.loadUserInfo();
+            // this.loadUserInfo()
         },methods: {
             
-            loadUserInfo(){
-                axios.get(`/api/user/`).then(response => {
-                    console.log(response.data);
-
-                    this.name = response.data.name;
-                })
-            },
+            // loadUserInfo(){
+            //     axios.get(`/api/user/`).then(response => {
+            //         console.log(response.data.name);
+            //         this.user_name = response.data.name;
+            //     })
+            // },
+            
             logoutFunction(){
                 axios.get('/api/logout').then(response => {
-                    this.$router.push("/login")
-
                     if(response.data == 'success'){
+                        this.user_name = '';
                         this.$router.push({ name: 'login' })
                     }
                 });
@@ -62,7 +62,7 @@ export default {
 
         },
         mounted() {
-            console.log('Component mounted.')
+            console.log('Header Component mounted.')
         }
 
 }

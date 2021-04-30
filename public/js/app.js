@@ -1939,8 +1939,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
-    return {
-      name: ''
+    return {// user_name: '',
     };
   },
   computed: {
@@ -1948,26 +1947,23 @@ __webpack_require__.r(__webpack_exports__);
       return this.$route.name;
     }
   },
-  created: function created() {
-    this.loadUserInfo();
+  created: function created() {// this.loadUserInfo()
   },
   methods: {
-    loadUserInfo: function loadUserInfo() {
+    // loadUserInfo(){
+    //     axios.get(`/api/user/`).then(response => {
+    //         console.log(response.data.name);
+    //         this.user_name = response.data.name;
+    //     })
+    // },
+    logoutFunction: function logoutFunction() {
       var _this = this;
 
-      axios.get("/api/user/").then(function (response) {
-        console.log(response.data);
-        _this.name = response.data.name;
-      });
-    },
-    logoutFunction: function logoutFunction() {
-      var _this2 = this;
-
       axios.get('/api/logout').then(function (response) {
-        _this2.$router.push("/login");
-
         if (response.data == 'success') {
-          _this2.$router.push({
+          _this.user_name = '';
+
+          _this.$router.push({
             name: 'login'
           });
         }
@@ -1975,7 +1971,7 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   mounted: function mounted() {
-    console.log('Component mounted.');
+    console.log('Header Component mounted.');
   }
 });
 
@@ -2000,6 +1996,132 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2008,10 +2130,25 @@ __webpack_require__.r(__webpack_exports__);
   },
   created: function created() {
     this.user_id = this.$route.params.data;
+    this.checkAlreadyRegisteredOrNot();
   },
-  methods: {},
+  methods: {
+    checkAlreadyRegisteredOrNot: function checkAlreadyRegisteredOrNot() {
+      var _this = this;
+
+      axios.get("/api/user/").then(function (response) {
+        console.log(response.data.name);
+
+        if (response.data.name == undefined) {
+          _this.$router.push({
+            path: '/'
+          });
+        }
+      });
+    }
+  },
   mounted: function mounted() {
-    console.log('Component mounted.');
+    console.log('Home Component mounted.');
   }
 });
 
@@ -2142,32 +2279,44 @@ __webpack_require__.r(__webpack_exports__);
       })
     };
   },
+  created: function created() {
+    this.checkAlreadyRegisteredOrNot();
+  },
   methods: {
-    userLogin: function userLogin() {
+    checkAlreadyRegisteredOrNot: function checkAlreadyRegisteredOrNot() {
       var _this = this;
+
+      axios.get("/api/user/").then(function (response) {
+        console.log(response.data.name);
+
+        if (response.data.name != undefined) {
+          _this.$router.push({
+            path: '/home'
+          });
+        }
+      });
+    },
+    userLogin: function userLogin() {
+      var _this2 = this;
 
       this.loginForm.post('/api/user').then(function (_ref) {
         var data = _ref.data;
-        _this.loginForm.name = '';
-        _this.loginForm.user_code = '';
-        _this.loginForm.country = '';
-        _this.loginForm.state = '';
-        _this.loginForm.age = '';
-        _this.loginForm.gender = '';
-        _this.loginForm.flag_url = '';
-        _this.loginForm.country_flag = '';
-        console.log(data);
+        _this2.loginForm.name = '';
+        _this2.loginForm.user_code = '';
+        _this2.loginForm.country = '';
+        _this2.loginForm.state = '';
+        _this2.loginForm.age = '';
+        _this2.loginForm.gender = '';
+        _this2.loginForm.flag_url = '';
+        _this2.loginForm.country_flag = '';
 
-        _this.$router.push({
-          name: 'home',
-          params: {
-            data: data
-          }
+        _this2.$router.push({
+          path: '/home'
         });
       });
     },
     getUserLocationInfo: function getUserLocationInfo() {
-      var _this2 = this;
+      var _this3 = this;
 
       var loader = this.$loading.show({
         container: this.$refs.loadingContainer,
@@ -2184,11 +2333,11 @@ __webpack_require__.r(__webpack_exports__);
       }); // setTimeout(() => loader.hide(), 3 * 1000)
 
       axios.get('http://ip-api.com/json').then(function (response) {
-        _this2.loginForm.user_code = response.data.query + '.' + Date.now();
-        _this2.loginForm.country = response.data.country;
-        _this2.loginForm.state = response.data.regionName;
+        _this3.loginForm.user_code = response.data.query + '.' + Date.now();
+        _this3.loginForm.country = response.data.country;
+        _this3.loginForm.state = response.data.regionName;
 
-        _this2.getCountryFlag();
+        _this3.getCountryFlag();
 
         loader.hide();
       })["catch"](function (error) {
@@ -2196,11 +2345,11 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     getCountryFlag: function getCountryFlag() {
-      var _this3 = this;
+      var _this4 = this;
 
       axios.get('https://restcountries.eu/rest/v2/name/' + this.loginForm.country).then(function (response) {
-        _this3.loginForm.flag_url = response.data[0].flag;
-        _this3.loginForm.country_flag = response.data[0].flag;
+        _this4.loginForm.flag_url = response.data[0].flag;
+        _this4.loginForm.country_flag = response.data[0].flag;
       });
     }
   },
@@ -6672,6 +6821,25 @@ exports = module.exports = __webpack_require__(/*! ../../css-loader/lib/css-base
 
 // module
 exports.push([module.i, ".vld-shown {\n  overflow: hidden;\n}\n\n.vld-overlay {\n  bottom: 0;\n  left: 0;\n  position: absolute;\n  right: 0;\n  top: 0;\n  align-items: center;\n  display: none;\n  justify-content: center;\n  overflow: hidden;\n  z-index: 9999;\n}\n\n.vld-overlay.is-active {\n  display: flex;\n}\n\n.vld-overlay.is-full-page {\n  z-index: 9999;\n  position: fixed;\n}\n\n.vld-overlay .vld-background {\n  bottom: 0;\n  left: 0;\n  position: absolute;\n  right: 0;\n  top: 0;\n  background: #fff;\n  opacity: 0.5;\n}\n\n.vld-overlay .vld-icon, .vld-parent {\n  position: relative;\n}\n\n", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/home.vue?vue&type=style&index=0&lang=css&":
+/*!*****************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/pages/home.vue?vue&type=style&index=0&lang=css& ***!
+  \*****************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.table.table-hover tr:hover {\n  background-color: #f2bab3 !important;\n}\n.my-custom-scrollbar {\nposition: relative;\nheight: calc( 100vh - 120px );\noverflow: auto;\n}\n.table-wrapper-scroll-y {\ndisplay: block;\n}\n", ""]);
 
 // exports
 
@@ -37894,6 +38062,36 @@ process.umask = function() { return 0; };
 
 /***/ }),
 
+/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/home.vue?vue&type=style&index=0&lang=css&":
+/*!*********************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader!./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/pages/home.vue?vue&type=style&index=0&lang=css& ***!
+  \*********************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../node_modules/css-loader??ref--6-1!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--6-2!../../../node_modules/vue-loader/lib??vue-loader-options!./home.vue?vue&type=style&index=0&lang=css& */ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/home.vue?vue&type=style&index=0&lang=css&");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
 /***/ "./node_modules/style-loader/lib/addStyles.js":
 /*!****************************************************!*\
   !*** ./node_modules/style-loader/lib/addStyles.js ***!
@@ -39576,9 +39774,7 @@ var render = function() {
                             },
                             [
                               _vm._v(
-                                "\n                        " +
-                                  _vm._s(_vm.name) +
-                                  "\n                    "
+                                "\n                        Profile\n                    "
                               )
                             ]
                           ),
@@ -39665,7 +39861,375 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "row justify-content-center" }, [
       _c("div", { staticClass: "col-md-12" }, [
-        _vm._v("\n           \n        Home Page\n            \n    ")
+        _c(
+          "div",
+          { staticClass: "col-3 table-wrapper-scroll-y my-custom-scrollbar" },
+          [
+            _c("table", { staticClass: "table table-bordered table-hover" }, [
+              _c("tr", [
+                _c("td", [
+                  _c("b", [_vm._v("NIPUN-1")]),
+                  _vm._v(" "),
+                  _c("p", [
+                    _vm._v("29, Female, Bangladesh "),
+                    _c("img", {
+                      attrs: {
+                        src: "https://restcountries.eu/data/bgd.svg",
+                        width: "30",
+                        height: "20",
+                        alt: "FLG"
+                      }
+                    })
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("tr", [
+                _c("td", [
+                  _c("b", [_vm._v("NIPUN-1")]),
+                  _vm._v(" "),
+                  _c("p", [
+                    _vm._v("Female, Bangladesh "),
+                    _c("img", {
+                      attrs: {
+                        src: "https://restcountries.eu/data/bgd.svg",
+                        width: "30",
+                        height: "20",
+                        alt: "FLG"
+                      }
+                    })
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("tr", [
+                _c("td", [
+                  _c("b", [_vm._v("NIPUN-1")]),
+                  _vm._v(" "),
+                  _c("p", [
+                    _vm._v("Female, Bangladesh "),
+                    _c("img", {
+                      attrs: {
+                        src: "https://restcountries.eu/data/bgd.svg",
+                        width: "30",
+                        height: "20",
+                        alt: "FLG"
+                      }
+                    })
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("tr", [
+                _c("td", [
+                  _c("b", [_vm._v("NIPUN-1")]),
+                  _vm._v(" "),
+                  _c("p", [
+                    _vm._v("Female, Bangladesh "),
+                    _c("img", {
+                      attrs: {
+                        src: "https://restcountries.eu/data/bgd.svg",
+                        width: "30",
+                        height: "20",
+                        alt: "FLG"
+                      }
+                    })
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("tr", [
+                _c("td", [
+                  _c("b", [_vm._v("NIPUN-1")]),
+                  _vm._v(" "),
+                  _c("p", [
+                    _vm._v("Female, Bangladesh "),
+                    _c("img", {
+                      attrs: {
+                        src: "https://restcountries.eu/data/bgd.svg",
+                        width: "30",
+                        height: "20",
+                        alt: "FLG"
+                      }
+                    })
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("tr", [
+                _c("td", [
+                  _c("b", [_vm._v("NIPUN-1")]),
+                  _vm._v(" "),
+                  _c("p", [
+                    _vm._v("Female, Bangladesh "),
+                    _c("img", {
+                      attrs: {
+                        src: "https://restcountries.eu/data/bgd.svg",
+                        width: "30",
+                        height: "20",
+                        alt: "FLG"
+                      }
+                    })
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("tr", [
+                _c("td", [
+                  _c("b", [_vm._v("NIPUN-1")]),
+                  _vm._v(" "),
+                  _c("p", [
+                    _vm._v("Female, Bangladesh "),
+                    _c("img", {
+                      attrs: {
+                        src: "https://restcountries.eu/data/bgd.svg",
+                        width: "30",
+                        height: "20",
+                        alt: "FLG"
+                      }
+                    })
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("tr", [
+                _c("td", [
+                  _c("b", [_vm._v("NIPUN-1")]),
+                  _vm._v(" "),
+                  _c("p", [
+                    _vm._v("Female, Bangladesh "),
+                    _c("img", {
+                      attrs: {
+                        src: "https://restcountries.eu/data/bgd.svg",
+                        width: "30",
+                        height: "20",
+                        alt: "FLG"
+                      }
+                    })
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("tr", [
+                _c("td", [
+                  _c("b", [_vm._v("NIPUN-1")]),
+                  _vm._v(" "),
+                  _c("p", [
+                    _vm._v("Female, Bangladesh "),
+                    _c("img", {
+                      attrs: {
+                        src: "https://restcountries.eu/data/bgd.svg",
+                        width: "30",
+                        height: "20",
+                        alt: "FLG"
+                      }
+                    })
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("tr", [
+                _c("td", [
+                  _c("b", [_vm._v("NIPUN-1")]),
+                  _vm._v(" "),
+                  _c("p", [
+                    _vm._v("Female, Bangladesh "),
+                    _c("img", {
+                      attrs: {
+                        src: "https://restcountries.eu/data/bgd.svg",
+                        width: "30",
+                        height: "20",
+                        alt: "FLG"
+                      }
+                    })
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("tr", [
+                _c("td", [
+                  _c("b", [_vm._v("NIPUN-1")]),
+                  _vm._v(" "),
+                  _c("p", [
+                    _vm._v("Female, Bangladesh "),
+                    _c("img", {
+                      attrs: {
+                        src: "https://restcountries.eu/data/bgd.svg",
+                        width: "30",
+                        height: "20",
+                        alt: "FLG"
+                      }
+                    })
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("tr", [
+                _c("td", [
+                  _c("b", [_vm._v("NIPUN-1")]),
+                  _vm._v(" "),
+                  _c("p", [
+                    _vm._v("Female, Bangladesh "),
+                    _c("img", {
+                      attrs: {
+                        src: "https://restcountries.eu/data/bgd.svg",
+                        width: "30",
+                        height: "20",
+                        alt: "FLG"
+                      }
+                    })
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("tr", [
+                _c("td", [
+                  _c("b", [_vm._v("NIPUN-1")]),
+                  _vm._v(" "),
+                  _c("p", [
+                    _vm._v("Female, Bangladesh "),
+                    _c("img", {
+                      attrs: {
+                        src: "https://restcountries.eu/data/bgd.svg",
+                        width: "30",
+                        height: "20",
+                        alt: "FLG"
+                      }
+                    })
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("tr", [
+                _c("td", [
+                  _c("b", [_vm._v("NIPUN-1")]),
+                  _vm._v(" "),
+                  _c("p", [
+                    _vm._v("Female, Bangladesh "),
+                    _c("img", {
+                      attrs: {
+                        src: "https://restcountries.eu/data/bgd.svg",
+                        width: "30",
+                        height: "20",
+                        alt: "FLG"
+                      }
+                    })
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("tr", [
+                _c("td", [
+                  _c("b", [_vm._v("NIPUN-1")]),
+                  _vm._v(" "),
+                  _c("p", [
+                    _vm._v("Female, Bangladesh "),
+                    _c("img", {
+                      attrs: {
+                        src: "https://restcountries.eu/data/bgd.svg",
+                        width: "30",
+                        height: "20",
+                        alt: "FLG"
+                      }
+                    })
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("tr", [
+                _c("td", [
+                  _c("b", [_vm._v("NIPUN-1")]),
+                  _vm._v(" "),
+                  _c("p", [
+                    _vm._v("Female, Bangladesh "),
+                    _c("img", {
+                      attrs: {
+                        src: "https://restcountries.eu/data/bgd.svg",
+                        width: "30",
+                        height: "20",
+                        alt: "FLG"
+                      }
+                    })
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("tr", [
+                _c("td", [
+                  _c("b", [_vm._v("NIPUN-1")]),
+                  _vm._v(" "),
+                  _c("p", [
+                    _vm._v("Female, Bangladesh "),
+                    _c("img", {
+                      attrs: {
+                        src: "https://restcountries.eu/data/bgd.svg",
+                        width: "30",
+                        height: "20",
+                        alt: "FLG"
+                      }
+                    })
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("tr", [
+                _c("td", [
+                  _c("b", [_vm._v("NIPUN-1")]),
+                  _vm._v(" "),
+                  _c("p", [
+                    _vm._v("Female, Bangladesh "),
+                    _c("img", {
+                      attrs: {
+                        src: "https://restcountries.eu/data/bgd.svg",
+                        width: "30",
+                        height: "20",
+                        alt: "FLG"
+                      }
+                    })
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("tr", [
+                _c("td", [
+                  _c("b", [_vm._v("NIPUN-1")]),
+                  _vm._v(" "),
+                  _c("p", [
+                    _vm._v("Female, Bangladesh "),
+                    _c("img", {
+                      attrs: {
+                        src: "https://restcountries.eu/data/bgd.svg",
+                        width: "30",
+                        height: "20",
+                        alt: "FLG"
+                      }
+                    })
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("tr", [
+                _c("td", [
+                  _c("b", [_vm._v("NIPUN-1")]),
+                  _vm._v(" "),
+                  _c("p", [
+                    _vm._v("Female, Bangladesh "),
+                    _c("img", {
+                      attrs: {
+                        src: "https://restcountries.eu/data/bgd.svg",
+                        width: "30",
+                        height: "20",
+                        alt: "FLG"
+                      }
+                    })
+                  ])
+                ])
+              ])
+            ])
+          ]
+        ),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-9" })
       ])
     ])
   }
@@ -55642,7 +56206,9 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _home_vue_vue_type_template_id_bb7a9770___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./home.vue?vue&type=template&id=bb7a9770& */ "./resources/js/pages/home.vue?vue&type=template&id=bb7a9770&");
 /* harmony import */ var _home_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./home.vue?vue&type=script&lang=js& */ "./resources/js/pages/home.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* empty/unused harmony star reexport *//* harmony import */ var _home_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./home.vue?vue&type=style&index=0&lang=css& */ "./resources/js/pages/home.vue?vue&type=style&index=0&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
 
 
 
@@ -55650,7 +56216,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /* normalize component */
 
-var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
   _home_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
   _home_vue_vue_type_template_id_bb7a9770___WEBPACK_IMPORTED_MODULE_0__["render"],
   _home_vue_vue_type_template_id_bb7a9770___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
@@ -55679,6 +56245,22 @@ component.options.__file = "resources/js/pages/home.vue"
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_home_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./home.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/home.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_home_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/pages/home.vue?vue&type=style&index=0&lang=css&":
+/*!**********************************************************************!*\
+  !*** ./resources/js/pages/home.vue?vue&type=style&index=0&lang=css& ***!
+  \**********************************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_home_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader!../../../node_modules/css-loader??ref--6-1!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--6-2!../../../node_modules/vue-loader/lib??vue-loader-options!./home.vue?vue&type=style&index=0&lang=css& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/home.vue?vue&type=style&index=0&lang=css&");
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_home_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_home_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_home_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(["default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_home_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+
 
 /***/ }),
 
