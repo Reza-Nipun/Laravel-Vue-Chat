@@ -20,4 +20,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::resource('user', 'UserController');
 
+Route::get('/users', 'UserController@getAllUsers')->name('users');
 Route::get('/logout', 'UserController@logout')->name('logout');

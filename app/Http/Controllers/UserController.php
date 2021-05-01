@@ -22,6 +22,21 @@ class UserController extends Controller
         return response()->json($user_info, 200);
     }
 
+    public function getAllUsers(){
+        $id = session('id');
+
+        $user_info = User::find($id);
+        $user_country = $user_info->country;
+        
+        $users = User::where('status', 1)
+                ->where('id', '<>', $id)
+                ->orderByRaw('country', '=', $user_country)
+                ->orderBy('country', 'desc')
+                ->get();
+
+        return response()->json($users, 200);
+    }
+
     /**
      * Show the form for creating a new resource.
      *

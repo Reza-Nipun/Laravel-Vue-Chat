@@ -1937,6 +1937,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {// user_name: '',
@@ -2077,73 +2078,36 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      user_id: ''
+      user_id: '',
+      active_users: []
     };
   },
   created: function created() {
     this.user_id = this.$route.params.data;
     this.checkAlreadyRegisteredOrNot();
+    this.getRegisteredActiveUsers();
+    this.timer = setInterval(this.getRegisteredActiveUsers, 60000);
   },
   methods: {
     checkAlreadyRegisteredOrNot: function checkAlreadyRegisteredOrNot() {
       var _this = this;
 
       axios.get("/api/user/").then(function (response) {
-        console.log(response.data.name);
-
         if (response.data.name == undefined) {
           _this.$router.push({
             path: '/'
           });
         }
+      });
+    },
+    getRegisteredActiveUsers: function getRegisteredActiveUsers() {
+      var _this2 = this;
+
+      axios.get("/api/users/").then(function (response) {
+        _this2.active_users = response.data;
       });
     }
   },
@@ -2335,7 +2299,7 @@ __webpack_require__.r(__webpack_exports__);
       axios.get('http://ip-api.com/json').then(function (response) {
         _this3.loginForm.user_code = response.data.query + '.' + Date.now();
         _this3.loginForm.country = response.data.country;
-        _this3.loginForm.state = response.data.regionName;
+        _this3.loginForm.state = response.data.city;
 
         _this3.getCountryFlag();
 
@@ -6839,7 +6803,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.table.table-hover tr:hover {\n  background-color: #f2bab3 !important;\n}\n.my-custom-scrollbar {\nposition: relative;\nheight: calc( 100vh - 120px );\noverflow: auto;\n}\n.table-wrapper-scroll-y {\ndisplay: block;\n}\n", ""]);
+exports.push([module.i, "\n.table.table-hover tr:hover {\n    background-color: #f2bab3 !important;\n}\n.my-custom-scrollbar {\n    position: relative;\n    height: calc( 100vh - 120px );\n    overflow: auto;\n}\n.table-wrapper-scroll-y {\n    display: block;\n}\n.chat_content_container {\n    position: relative;\n    height: calc( 100vh - 150px );\n    overflow: auto;\n}\n", ""]);
 
 // exports
 
@@ -39758,7 +39722,7 @@ var render = function() {
                           1
                         ),
                         _vm._v(" "),
-                        _c("li", { staticClass: "nav-item dropdown" }, [
+                        _c("li", { staticClass: "nav-item dropdown active" }, [
                           _c(
                             "a",
                             {
@@ -39820,8 +39784,8 @@ var staticRenderFns = [
         staticClass: "navbar-toggler",
         attrs: {
           type: "button",
-          "data-bs-toggle": "collapse",
-          "data-bs-target": "#navbarSupportedContent",
+          "data-toggle": "collapse",
+          "data-target": "#navbarSupportedContent",
           "aria-controls": "navbarSupportedContent",
           "aria-expanded": "false",
           "aria-label": "Toggle navigation"
@@ -39852,384 +39816,202 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("div", { staticClass: "row justify-content-center" }, [
+    _c("div", { staticClass: "col-md-12" }, [
+      _c("div", { staticClass: "row" }, [
+        _c(
+          "div",
+          { staticClass: "col-3 table-wrapper-scroll-y my-custom-scrollbar" },
+          [
+            _c(
+              "table",
+              { staticClass: "table table-bordered table-hover" },
+              _vm._l(_vm.active_users, function(user, index) {
+                return _c("tr", { key: index }, [
+                  _c("td", [
+                    _c("p", [
+                      _c("b", [_vm._v(_vm._s(user.name))]),
+                      _vm._v(
+                        " (" +
+                          _vm._s(user.age) +
+                          ", " +
+                          _vm._s(
+                            user.gender == 0
+                              ? "Male"
+                              : user.gender == 1
+                              ? "Female"
+                              : user.gender == 2
+                              ? "Common"
+                              : ""
+                          ) +
+                          ")"
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("p", [
+                      _vm._v(
+                        _vm._s(user.state) + ", " + _vm._s(user.country) + " "
+                      ),
+                      _c("img", {
+                        attrs: {
+                          src: user.country_flag,
+                          width: "30",
+                          height: "20",
+                          alt: "FLG"
+                        }
+                      })
+                    ])
+                  ])
+                ])
+              }),
+              0
+            )
+          ]
+        ),
+        _vm._v(" "),
+        _vm._m(0)
+      ])
+    ])
+  ])
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "row justify-content-center" }, [
-      _c("div", { staticClass: "col-md-12" }, [
-        _c(
-          "div",
-          { staticClass: "col-3 table-wrapper-scroll-y my-custom-scrollbar" },
-          [
-            _c("table", { staticClass: "table table-bordered table-hover" }, [
-              _c("tr", [
-                _c("td", [
-                  _c("b", [_vm._v("NIPUN-1")]),
-                  _vm._v(" "),
-                  _c("p", [
-                    _vm._v("29, Female, Bangladesh "),
-                    _c("img", {
-                      attrs: {
-                        src: "https://restcountries.eu/data/bgd.svg",
-                        width: "30",
-                        height: "20",
-                        alt: "FLG"
-                      }
-                    })
-                  ])
-                ])
-              ]),
-              _vm._v(" "),
-              _c("tr", [
-                _c("td", [
-                  _c("b", [_vm._v("NIPUN-1")]),
-                  _vm._v(" "),
-                  _c("p", [
-                    _vm._v("Female, Bangladesh "),
-                    _c("img", {
-                      attrs: {
-                        src: "https://restcountries.eu/data/bgd.svg",
-                        width: "30",
-                        height: "20",
-                        alt: "FLG"
-                      }
-                    })
-                  ])
-                ])
-              ]),
-              _vm._v(" "),
-              _c("tr", [
-                _c("td", [
-                  _c("b", [_vm._v("NIPUN-1")]),
-                  _vm._v(" "),
-                  _c("p", [
-                    _vm._v("Female, Bangladesh "),
-                    _c("img", {
-                      attrs: {
-                        src: "https://restcountries.eu/data/bgd.svg",
-                        width: "30",
-                        height: "20",
-                        alt: "FLG"
-                      }
-                    })
-                  ])
-                ])
-              ]),
-              _vm._v(" "),
-              _c("tr", [
-                _c("td", [
-                  _c("b", [_vm._v("NIPUN-1")]),
-                  _vm._v(" "),
-                  _c("p", [
-                    _vm._v("Female, Bangladesh "),
-                    _c("img", {
-                      attrs: {
-                        src: "https://restcountries.eu/data/bgd.svg",
-                        width: "30",
-                        height: "20",
-                        alt: "FLG"
-                      }
-                    })
-                  ])
-                ])
-              ]),
-              _vm._v(" "),
-              _c("tr", [
-                _c("td", [
-                  _c("b", [_vm._v("NIPUN-1")]),
-                  _vm._v(" "),
-                  _c("p", [
-                    _vm._v("Female, Bangladesh "),
-                    _c("img", {
-                      attrs: {
-                        src: "https://restcountries.eu/data/bgd.svg",
-                        width: "30",
-                        height: "20",
-                        alt: "FLG"
-                      }
-                    })
-                  ])
-                ])
-              ]),
-              _vm._v(" "),
-              _c("tr", [
-                _c("td", [
-                  _c("b", [_vm._v("NIPUN-1")]),
-                  _vm._v(" "),
-                  _c("p", [
-                    _vm._v("Female, Bangladesh "),
-                    _c("img", {
-                      attrs: {
-                        src: "https://restcountries.eu/data/bgd.svg",
-                        width: "30",
-                        height: "20",
-                        alt: "FLG"
-                      }
-                    })
-                  ])
-                ])
-              ]),
-              _vm._v(" "),
-              _c("tr", [
-                _c("td", [
-                  _c("b", [_vm._v("NIPUN-1")]),
-                  _vm._v(" "),
-                  _c("p", [
-                    _vm._v("Female, Bangladesh "),
-                    _c("img", {
-                      attrs: {
-                        src: "https://restcountries.eu/data/bgd.svg",
-                        width: "30",
-                        height: "20",
-                        alt: "FLG"
-                      }
-                    })
-                  ])
-                ])
-              ]),
-              _vm._v(" "),
-              _c("tr", [
-                _c("td", [
-                  _c("b", [_vm._v("NIPUN-1")]),
-                  _vm._v(" "),
-                  _c("p", [
-                    _vm._v("Female, Bangladesh "),
-                    _c("img", {
-                      attrs: {
-                        src: "https://restcountries.eu/data/bgd.svg",
-                        width: "30",
-                        height: "20",
-                        alt: "FLG"
-                      }
-                    })
-                  ])
-                ])
-              ]),
-              _vm._v(" "),
-              _c("tr", [
-                _c("td", [
-                  _c("b", [_vm._v("NIPUN-1")]),
-                  _vm._v(" "),
-                  _c("p", [
-                    _vm._v("Female, Bangladesh "),
-                    _c("img", {
-                      attrs: {
-                        src: "https://restcountries.eu/data/bgd.svg",
-                        width: "30",
-                        height: "20",
-                        alt: "FLG"
-                      }
-                    })
-                  ])
-                ])
-              ]),
-              _vm._v(" "),
-              _c("tr", [
-                _c("td", [
-                  _c("b", [_vm._v("NIPUN-1")]),
-                  _vm._v(" "),
-                  _c("p", [
-                    _vm._v("Female, Bangladesh "),
-                    _c("img", {
-                      attrs: {
-                        src: "https://restcountries.eu/data/bgd.svg",
-                        width: "30",
-                        height: "20",
-                        alt: "FLG"
-                      }
-                    })
-                  ])
-                ])
-              ]),
-              _vm._v(" "),
-              _c("tr", [
-                _c("td", [
-                  _c("b", [_vm._v("NIPUN-1")]),
-                  _vm._v(" "),
-                  _c("p", [
-                    _vm._v("Female, Bangladesh "),
-                    _c("img", {
-                      attrs: {
-                        src: "https://restcountries.eu/data/bgd.svg",
-                        width: "30",
-                        height: "20",
-                        alt: "FLG"
-                      }
-                    })
-                  ])
-                ])
-              ]),
-              _vm._v(" "),
-              _c("tr", [
-                _c("td", [
-                  _c("b", [_vm._v("NIPUN-1")]),
-                  _vm._v(" "),
-                  _c("p", [
-                    _vm._v("Female, Bangladesh "),
-                    _c("img", {
-                      attrs: {
-                        src: "https://restcountries.eu/data/bgd.svg",
-                        width: "30",
-                        height: "20",
-                        alt: "FLG"
-                      }
-                    })
-                  ])
-                ])
-              ]),
-              _vm._v(" "),
-              _c("tr", [
-                _c("td", [
-                  _c("b", [_vm._v("NIPUN-1")]),
-                  _vm._v(" "),
-                  _c("p", [
-                    _vm._v("Female, Bangladesh "),
-                    _c("img", {
-                      attrs: {
-                        src: "https://restcountries.eu/data/bgd.svg",
-                        width: "30",
-                        height: "20",
-                        alt: "FLG"
-                      }
-                    })
-                  ])
-                ])
-              ]),
-              _vm._v(" "),
-              _c("tr", [
-                _c("td", [
-                  _c("b", [_vm._v("NIPUN-1")]),
-                  _vm._v(" "),
-                  _c("p", [
-                    _vm._v("Female, Bangladesh "),
-                    _c("img", {
-                      attrs: {
-                        src: "https://restcountries.eu/data/bgd.svg",
-                        width: "30",
-                        height: "20",
-                        alt: "FLG"
-                      }
-                    })
-                  ])
-                ])
-              ]),
-              _vm._v(" "),
-              _c("tr", [
-                _c("td", [
-                  _c("b", [_vm._v("NIPUN-1")]),
-                  _vm._v(" "),
-                  _c("p", [
-                    _vm._v("Female, Bangladesh "),
-                    _c("img", {
-                      attrs: {
-                        src: "https://restcountries.eu/data/bgd.svg",
-                        width: "30",
-                        height: "20",
-                        alt: "FLG"
-                      }
-                    })
-                  ])
-                ])
-              ]),
-              _vm._v(" "),
-              _c("tr", [
-                _c("td", [
-                  _c("b", [_vm._v("NIPUN-1")]),
-                  _vm._v(" "),
-                  _c("p", [
-                    _vm._v("Female, Bangladesh "),
-                    _c("img", {
-                      attrs: {
-                        src: "https://restcountries.eu/data/bgd.svg",
-                        width: "30",
-                        height: "20",
-                        alt: "FLG"
-                      }
-                    })
-                  ])
-                ])
-              ]),
-              _vm._v(" "),
-              _c("tr", [
-                _c("td", [
-                  _c("b", [_vm._v("NIPUN-1")]),
-                  _vm._v(" "),
-                  _c("p", [
-                    _vm._v("Female, Bangladesh "),
-                    _c("img", {
-                      attrs: {
-                        src: "https://restcountries.eu/data/bgd.svg",
-                        width: "30",
-                        height: "20",
-                        alt: "FLG"
-                      }
-                    })
-                  ])
-                ])
-              ]),
-              _vm._v(" "),
-              _c("tr", [
-                _c("td", [
-                  _c("b", [_vm._v("NIPUN-1")]),
-                  _vm._v(" "),
-                  _c("p", [
-                    _vm._v("Female, Bangladesh "),
-                    _c("img", {
-                      attrs: {
-                        src: "https://restcountries.eu/data/bgd.svg",
-                        width: "30",
-                        height: "20",
-                        alt: "FLG"
-                      }
-                    })
-                  ])
-                ])
-              ]),
-              _vm._v(" "),
-              _c("tr", [
-                _c("td", [
-                  _c("b", [_vm._v("NIPUN-1")]),
-                  _vm._v(" "),
-                  _c("p", [
-                    _vm._v("Female, Bangladesh "),
-                    _c("img", {
-                      attrs: {
-                        src: "https://restcountries.eu/data/bgd.svg",
-                        width: "30",
-                        height: "20",
-                        alt: "FLG"
-                      }
-                    })
-                  ])
-                ])
-              ]),
-              _vm._v(" "),
-              _c("tr", [
-                _c("td", [
-                  _c("b", [_vm._v("NIPUN-1")]),
-                  _vm._v(" "),
-                  _c("p", [
-                    _vm._v("Female, Bangladesh "),
-                    _c("img", {
-                      attrs: {
-                        src: "https://restcountries.eu/data/bgd.svg",
-                        width: "30",
-                        height: "20",
-                        alt: "FLG"
-                      }
-                    })
-                  ])
-                ])
-              ])
-            ])
-          ]
-        ),
+    return _c("div", { staticClass: "col-9" }, [
+      _c("div", { staticClass: "row" }, [
+        _c("div", { staticClass: "col-12 chat_content_container" }, [
+          _c("p", [_vm._v("Hello There")]),
+          _vm._v(" "),
+          _c("p", [_vm._v("Hello There")]),
+          _vm._v(" "),
+          _c("p", [_vm._v("Hello There")]),
+          _vm._v(" "),
+          _c("p", [_vm._v("Hello There")]),
+          _vm._v(" "),
+          _c("p", [_vm._v("Hello There")]),
+          _vm._v(" "),
+          _c("p", [_vm._v("Hello There")]),
+          _vm._v(" "),
+          _c("p", [_vm._v("Hello There")]),
+          _vm._v(" "),
+          _c("p", [_vm._v("Hello There")]),
+          _vm._v(" "),
+          _c("p", [_vm._v("Hello There")]),
+          _vm._v(" "),
+          _c("p", [_vm._v("Hello There")]),
+          _vm._v(" "),
+          _c("p", [_vm._v("Hello There")]),
+          _vm._v(" "),
+          _c("p", [_vm._v("Hello There")]),
+          _vm._v(" "),
+          _c("p", [_vm._v("Hello There")]),
+          _vm._v(" "),
+          _c("p", [_vm._v("Hello There")]),
+          _vm._v(" "),
+          _c("p", [_vm._v("Hello There")]),
+          _vm._v(" "),
+          _c("p", [_vm._v("Hello There")]),
+          _vm._v(" "),
+          _c("p", [_vm._v("Hello There")]),
+          _vm._v(" "),
+          _c("p", [_vm._v("Hello There")]),
+          _vm._v(" "),
+          _c("p", [_vm._v("Hello There")]),
+          _vm._v(" "),
+          _c("p", [_vm._v("Hello There")]),
+          _vm._v(" "),
+          _c("p", [_vm._v("Hello There")]),
+          _vm._v(" "),
+          _c("p", [_vm._v("Hello There")]),
+          _vm._v(" "),
+          _c("p", [_vm._v("Hello There")]),
+          _vm._v(" "),
+          _c("p", [_vm._v("Hello There")]),
+          _vm._v(" "),
+          _c("p", [_vm._v("Hello There")]),
+          _vm._v(" "),
+          _c("p", [_vm._v("Hello There")]),
+          _vm._v(" "),
+          _c("p", [_vm._v("Hello There")]),
+          _vm._v(" "),
+          _c("p", [_vm._v("Hello There")]),
+          _vm._v(" "),
+          _c("p", [_vm._v("Hello There")]),
+          _vm._v(" "),
+          _c("p", [_vm._v("Hello There")]),
+          _vm._v(" "),
+          _c("p", [_vm._v("Hello There")]),
+          _vm._v(" "),
+          _c("p", [_vm._v("Hello There")]),
+          _vm._v(" "),
+          _c("p", [_vm._v("Hello There")]),
+          _vm._v(" "),
+          _c("p", [_vm._v("Hello There")]),
+          _vm._v(" "),
+          _c("p", [_vm._v("Hello There")]),
+          _vm._v(" "),
+          _c("p", [_vm._v("Hello There")]),
+          _vm._v(" "),
+          _c("p", [_vm._v("Hello There")]),
+          _vm._v(" "),
+          _c("p", [_vm._v("Hello There")]),
+          _vm._v(" "),
+          _c("p", [_vm._v("Hello There")]),
+          _vm._v(" "),
+          _c("p", [_vm._v("Hello There")]),
+          _vm._v(" "),
+          _c("p", [_vm._v("Hello There")]),
+          _vm._v(" "),
+          _c("p", [_vm._v("Hello There")]),
+          _vm._v(" "),
+          _c("p", [_vm._v("Hello There")]),
+          _vm._v(" "),
+          _c("p", [_vm._v("Hello There")]),
+          _vm._v(" "),
+          _c("p", [_vm._v("Hello There")]),
+          _vm._v(" "),
+          _c("p", [_vm._v("Hello There")]),
+          _vm._v(" "),
+          _c("p", [_vm._v("Hello There")]),
+          _vm._v(" "),
+          _c("p", [_vm._v("Hello There")]),
+          _vm._v(" "),
+          _c("p", [_vm._v("Hello There")]),
+          _vm._v(" "),
+          _c("p", [_vm._v("Hello There")]),
+          _vm._v(" "),
+          _c("p", [_vm._v("Hello There")]),
+          _vm._v(" "),
+          _c("p", [_vm._v("Hello There")]),
+          _vm._v(" "),
+          _c("p", [_vm._v("Hello There")]),
+          _vm._v(" "),
+          _c("p", [_vm._v("Hello There")]),
+          _vm._v(" "),
+          _c("p", [_vm._v("Hello There")]),
+          _vm._v(" "),
+          _c("p", [_vm._v("Hello There")])
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "row mt-2" }, [
+        _c("div", { staticClass: "col-8" }, [
+          _c("input", {
+            staticClass: "form-control",
+            attrs: { type: "text", autocomplete: "off" }
+          })
+        ]),
         _vm._v(" "),
-        _c("div", { staticClass: "col-9" })
+        _c("div", { staticClass: "col-2" }, [
+          _c("button", { staticClass: "btn btn-danger" }, [
+            _c("i", {
+              staticClass: "fa fa-paper-plane",
+              attrs: { "aria-hidden": "true" }
+            })
+          ])
+        ])
       ])
     ])
   }
@@ -40614,7 +40396,7 @@ var render = function() {
                   _c(
                     "label",
                     { staticClass: "col-md-4 col-form-label text-md-right" },
-                    [_vm._v("State")]
+                    [_vm._v("City")]
                   ),
                   _vm._v(" "),
                   _c(

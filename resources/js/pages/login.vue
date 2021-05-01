@@ -73,7 +73,7 @@
                         </div>
                         
                         <div class="form-group row">
-                            <label class="col-md-4 col-form-label text-md-right">State</label>
+                            <label class="col-md-4 col-form-label text-md-right">City</label>
 
                             <div class="col-md-6">
                                 <input type="text" class="form-control" readonly="readonly" name="state" v-model="loginForm.state" :class="{ 'is-invalid': loginForm.errors.has('state') }" />
@@ -161,7 +161,7 @@ export default {
             .then(response => {
                 this.loginForm.user_code = response.data.query +'.'+ Date.now();
                 this.loginForm.country = response.data.country;
-                this.loginForm.state = response.data.regionName;
+                this.loginForm.state = response.data.city;
 
                 this.getCountryFlag();
 

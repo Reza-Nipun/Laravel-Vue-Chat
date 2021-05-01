@@ -11,7 +11,6 @@
     },
     "devDependencies": {
         "axios": "^0.19.2",
-        "bootstrap": "^4.0.0",
         "cross-env": "^7.0",
         "jquery": "^3.2",
         "laravel-mix": "^5.0.1",
@@ -20,11 +19,13 @@
         "resolve-url-loader": "^2.3.1",
         "sass": "^1.20.1",
         "sass-loader": "^8.0.0",
-        "vue": "^2.5.17",
         "vue-template-compiler": "^2.6.10"
     },
     "dependencies": {
+        "bootstrap": "^4.6.0",
+        "bootstrap-vue": "^2.21.2",
         "vform": "^1.0.1",
+        "vue": "^2.6.12",
         "vue-axios": "^3.2.4",
         "vue-loading-overlay": "^3.4.2",
         "vue-router": "^3.5.1"
