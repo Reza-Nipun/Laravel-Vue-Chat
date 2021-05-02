@@ -157,13 +157,16 @@ export default {
         });
         // setTimeout(() => loader.hide(), 3 * 1000)
 
-            axios.get('http://ip-api.com/json')
+            axios.get('https://api.ipgeolocation.io/ipgeo?apiKey=c634adffacda41e1b7819508a9e1effa')
             .then(response => {
-                this.loginForm.user_code = response.data.query +'.'+ Date.now();
-                this.loginForm.country = response.data.country;
+                this.loginForm.user_code = response.data.ip +'.'+ Date.now();
+                this.loginForm.country = response.data.country_name;
                 this.loginForm.state = response.data.city;
 
-                this.getCountryFlag();
+                this.loginForm.flag_url = response.data.country_flag;
+                this.loginForm.country_flag = response.data.country_flag;
+
+                // this.getCountryFlag();
 
                 loader.hide();
             })
@@ -173,14 +176,13 @@ export default {
 
             
         },
-        getCountryFlag(){
+        // getCountryFlag(){
 
-            axios.get('https://restcountries.eu/rest/v2/name/'+this.loginForm.country)
-            .then(response => {
-                this.loginForm.flag_url = response.data[0].flag;
-                this.loginForm.country_flag = response.data[0].flag;
-            })
-        },
+        //     axios.get('https://restcountries.eu/rest/v2/name/'+this.loginForm.country)
+        //     .then(response => {
+                
+        //     })
+        // },
     },
     mounted() {
         // $.get("http://ip-api.com/json", function (response) {

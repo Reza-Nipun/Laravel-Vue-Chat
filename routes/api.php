@@ -19,6 +19,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::resource('user', 'UserController');
+Route::resource('conversation', 'ConversationController');
 
+Route::get('/conversations/{id}', 'ConversationController@getConversations')->name('conversations');
 Route::get('/users', 'UserController@getAllUsers')->name('users');
 Route::get('/logout', 'UserController@logout')->name('logout');

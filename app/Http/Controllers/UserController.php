@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\cr;
+use App\Conversation;
 use App\User;
 use Illuminate\Http\Request;
 
@@ -78,7 +78,6 @@ class UserController extends Controller
 
         session(['id'=>$user->id]);
 
-
         return response()->json('success', 200);
     }
 
@@ -91,6 +90,7 @@ class UserController extends Controller
     public function show(User $user)
     {
         
+        
     }
 
     /**
@@ -101,7 +101,11 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        
+        if($user){
+            return response()->json($user, 200);
+        }else{
+            return response()->json('Failed', 404);
+        }
     }
 
     /**
@@ -130,8 +134,9 @@ class UserController extends Controller
     public function logout(){
         $id = session('id');
 
-        User::find($id)->delete();
-
+        Conversation::where('from_id', $id)->orWhere('to_id', $id)->delete();
+        User::destroy($id);
+        
         session()->flush();
 
         return response()->json('success', 200);
